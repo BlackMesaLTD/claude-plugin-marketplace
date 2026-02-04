@@ -1,0 +1,23 @@
+{
+  "name": "Black Mesa Marketplace",
+  "owner": {
+    "name": "Black Mesa LTD",
+    "email": "info@blackmesa.live"
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "workflow",
+      "source": "./workflow",
+      "description": "Automated workflow session management with hooks and MCP tools for /research, /plan, /implement, /review, /debug, /refactor, and /archive commands",
+      "version": "1.0.0",
+      "author": {
+        "name": "Black Mesa LTD"
+      },
+      "category": "workflow",
+      "keywords": ["workflow", "logging", "research", "plan", "implement", "review"]
+    }
+  ]
+}
