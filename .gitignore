@@ -1,4 +1,19 @@
-# Generated Claude Permissions and Session Data
-.claude
-# Claude Pathfinding instructions file
+# Environment and local config
+.env
+.env.local
+*.local.json
+
+# Editor artifacts
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node (if scripts are built)
+node_modules/
+dist/
+*.log
+
+# Session state (managed by MCP server)
+.claude/
 CLAUDE.md
