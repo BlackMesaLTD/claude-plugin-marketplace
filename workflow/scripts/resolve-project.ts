@@ -5,7 +5,7 @@
  * Intercepts `start_session` tool calls to resolve git remote names
  * (like "origin") into actual URLs before they reach the MCP server.
  *
- * Input (stdin): JSON with { tool_name, tool_input }
+ * Input (stdin): JSON with { tool_name, tool_input, cwd, ... }
  * Output (stdout): JSON with updatedInput containing resolved hints
  *
  * Fails open: any error allows the tool call through unchanged.
@@ -16,6 +16,9 @@ import { execSync } from 'child_process';
 interface HookInput {
   tool_name: string;
   tool_input: Record<string, unknown>;
+  cwd: string;
+  session_id?: string;
+  hook_event_name?: string;
 }
 
 interface TopicHints {
@@ -23,19 +26,10 @@ interface TopicHints {
   directory?: string;
 }
 
-interface HookOutput {
-  hookSpecificOutput?: {
-    hookEventName: string;
-    permissionDecision: 'allow';
-    updatedInput?: Record<string, unknown>;
-  };
-}
-
 /**
  * Check if a string looks like a git URL (not just a remote name like "origin")
  */
 function looksLikeUrl(value: string): boolean {
-  // URLs contain at least one of: / : @ .
   return /[/:@.]/.test(value);
 }
 
@@ -55,13 +49,6 @@ function resolveGitRemote(nameOrUrl: string, cwd: string): string | null {
   }
 }
 
-/**
- * Get the default origin URL
- */
-function getOriginUrl(cwd: string): string | null {
-  return resolveGitRemote('origin', cwd);
-}
-
 function main(): void {
   let input = '';
 
@@ -73,62 +60,45 @@ function main(): void {
   process.stdin.on('end', () => {
     try {
       const hookInput: HookInput = JSON.parse(input);
-      const { tool_input } = hookInput;
+      const { tool_input, cwd } = hookInput;
+      const workDir = cwd || process.cwd();
+
+      // Debug to stderr (visible in verbose mode, won't corrupt stdout)
+      process.stderr.write(`[resolve-project] Hook fired for tool: ${hookInput.tool_name}, cwd: ${workDir}\n`);
 
       // Parse hints from tool_input
-      let hintsStr = tool_input.hints as string | undefined;
-      if (!hintsStr || typeof hintsStr !== 'string') {
-        // No hints string - try to inject git remote + directory
-        const cwd = process.env.CLAUDE_WORKING_DIRECTORY || process.cwd();
-        const hints: TopicHints = {};
+      const hintsStr = tool_input.hints as string | undefined;
 
-        const gitUrl = getOriginUrl(cwd);
-        if (gitUrl) {
-          hints.gitRemote = gitUrl;
-        }
-        hints.directory = cwd;
-
-        // Return with injected hints
-        const output: HookOutput = {
-          hookSpecificOutput: {
-            hookEventName: 'PreToolUse',
-            permissionDecision: 'allow',
-            updatedInput: {
-              ...tool_input,
-              hints: JSON.stringify(hints),
-            },
-          },
-        };
-        console.log(JSON.stringify(output));
-        return;
-      }
-
-      // Parse existing hints
       let hints: TopicHints;
-      try {
-        hints = JSON.parse(hintsStr);
-      } catch {
-        // Invalid JSON - allow through unchanged
-        console.log(JSON.stringify({}));
-        return;
-      }
-
-      const cwd = process.env.CLAUDE_WORKING_DIRECTORY || process.cwd();
-      let modified = false;
-
-      // If gitRemote doesn't look like a URL, resolve it as a remote name
-      if (hints.gitRemote) {
-        if (!looksLikeUrl(hints.gitRemote)) {
-          const resolved = resolveGitRemote(hints.gitRemote, cwd);
-          if (resolved) {
-            hints.gitRemote = resolved;
-            modified = true;
-          }
+      if (hintsStr && typeof hintsStr === 'string') {
+        try {
+          hints = JSON.parse(hintsStr);
+        } catch {
+          // Invalid JSON hints - build from scratch
+          hints = {};
         }
       } else {
-        // No gitRemote at all - try to resolve origin
-        const originUrl = getOriginUrl(cwd);
+        hints = {};
+      }
+
+      let modified = false;
+
+      // If gitRemote doesn't look like a URL, resolve it
+      if (hints.gitRemote && !looksLikeUrl(hints.gitRemote)) {
+        process.stderr.write(`[resolve-project] Resolving remote name "${hints.gitRemote}" in ${workDir}\n`);
+        const resolved = resolveGitRemote(hints.gitRemote, workDir);
+        if (resolved) {
+          process.stderr.write(`[resolve-project] Resolved to: ${resolved}\n`);
+          hints.gitRemote = resolved;
+          modified = true;
+        }
+      }
+
+      // If no gitRemote at all, try origin
+      if (!hints.gitRemote) {
+        const originUrl = resolveGitRemote('origin', workDir);
         if (originUrl) {
+          process.stderr.write(`[resolve-project] Injected origin: ${originUrl}\n`);
           hints.gitRemote = originUrl;
           modified = true;
         }
@@ -136,28 +106,28 @@ function main(): void {
 
       // If no directory, set from cwd
       if (!hints.directory) {
-        hints.directory = cwd;
+        hints.directory = workDir;
         modified = true;
       }
 
       if (modified) {
-        const output: HookOutput = {
+        process.stderr.write(`[resolve-project] Returning updated hints: ${JSON.stringify(hints)}\n`);
+        console.log(JSON.stringify({
           hookSpecificOutput: {
             hookEventName: 'PreToolUse',
             permissionDecision: 'allow',
             updatedInput: {
-              ...tool_input,
               hints: JSON.stringify(hints),
             },
           },
-        };
-        console.log(JSON.stringify(output));
+        }));
       } else {
-        // No changes needed - allow through
+        process.stderr.write(`[resolve-project] No changes needed\n`);
         console.log(JSON.stringify({}));
       }
-    } catch {
-      // Fail open - allow the tool call through unchanged
+    } catch (err) {
+      // Fail open - log to stderr, allow tool call through unchanged
+      process.stderr.write(`[resolve-project] Error: ${err}\n`);
       console.log(JSON.stringify({}));
     }
   });
