@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.ts start"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js\" start"
           }
         ]
       }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/resolve-project.ts"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/resolve-project.js\""
           }
         ]
       }
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/log-reminder.ts"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/log-reminder.js\""
           }
         ]
       }
@@ -40,7 +40,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.ts check-end"
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/scripts/session-hook.js\" check-end"
           }
         ]
       }

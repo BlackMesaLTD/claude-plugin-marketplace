@@ -1,7 +1,7 @@
 {
   "name": "workflow",
   "description": "Automated workflow session management with hooks and MCP tools for /research, /plan, /implement, /review, /debug, /refactor, and /archive commands",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": {
     "name": "Black Mesa LTD",
     "email": "info@blackmesa.live"
