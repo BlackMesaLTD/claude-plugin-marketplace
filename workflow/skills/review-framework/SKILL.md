@@ -5,11 +5,12 @@ description: Review methodology for gap analysis across research, plan, and impl
 
 ## Session Initialization
 
-Load artifacts based on `start_session` response:
+Load context using topic-scoped queries:
 ```
-get_phase_entries({ sessionId: "<research_id>", tags: ["requirement", "decision"] })
-get_phase_entries({ sessionId: "<plan_id>", tags: ["decision"] })
-get_phase_entries({ sessionId: "<implementation_id>", tags: ["task-complete", "issue"] })
+get_project_context()  // Overview of all sessions, entry counts, key decisions
+get_context({ phases: ["/research"], tags: ["requirement", "decision"] })
+get_context({ phases: ["/plan"], tags: ["decision"] })
+get_context({ phases: ["/implement"], tags: ["task-complete", "issue"] })
 ```
 
 **Priority**: Always fetch requirements first — these are non-negotiable checkpoints.

@@ -80,7 +80,8 @@ Phase-specific commands (e.g., `[show gaps]`, `[show plan]`) are defined in each
 - `mcp__workflow__start_session` — Creates session (called automatically by hook)
 - `mcp__workflow__log_entry` — Log findings, decisions, completions
 - `mcp__workflow__get_status` — Check session state and entry count
-- `mcp__workflow__get_phase_entries` — Fetch entries from prior phases
+- `mcp__workflow__get_context` — Retrieve entries by topic, phase, tags, or entry IDs
+- `mcp__workflow__get_project_context` — Lightweight overview of all sessions and entries for a topic
 - `mcp__workflow__end_session` — Finalize and generate handoff
 
 ## Local LLM Delegation

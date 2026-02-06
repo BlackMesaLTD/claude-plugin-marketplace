@@ -6,7 +6,7 @@ description: Implementation methodology for executing plans with precision, incl
 ## Session Initialization
 
 1. **Load plan context** from `start_session` response:
-   - Fetch plan entries: `get_phase_entries({ sessionId, tags: ["decision"] })`
+   - Fetch plan entries: `get_context({ phases: ["/plan"], tags: ["decision"] })`
 2. **Filter tasks**: Only implement `Status: Approved` tasks
    - Skip `Deferred` (backlogged)
    - If `Proposed` tasks found, ask user before proceeding

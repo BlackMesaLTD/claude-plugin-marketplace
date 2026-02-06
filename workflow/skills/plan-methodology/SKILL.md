@@ -6,7 +6,7 @@ description: Planning methodology for translating research into actionable imple
 ## Session Initialization
 
 1. **Load context** from `start_session` response:
-   - Fetch research entries: `get_phase_entries({ sessionId, tags: ["requirement", "decision", "blocker"] })`
+   - Fetch research entries: `get_context({ phases: ["/research"], tags: ["requirement", "decision", "blocker"] })`
 2. **Analyze research**: Key findings, actionable items, open questions
 3. **Check existing patterns**: Scan for reusable utilities
 
