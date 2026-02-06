@@ -28,51 +28,49 @@ const DPS_LABELS = {
 const COMMAND_CONFIGS = {
   '/research': {
     defaultDps: 4,
-    nextCommand: '/workflow:plan',
-    contextMessage: `Use mcp__workflow__log_entry for all findings with tag "finding".
-Use mcp__workflow__log_entry with tag "requirement" for user requirements.
-Use tag "blocker" if you encounter something preventing progress.
+    nextCommand: '/plan',
+    contextMessage: `Reference the workflow-protocol and research-methodology skills.
+Use mcp__workflow__log_entry for all findings (tag "finding"), requirements (tag "requirement"), and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,
   },
   '/plan': {
     defaultDps: 1,
-    nextCommand: '/workflow:implement',
-    contextMessage: `Use mcp__workflow__log_entry for decisions with tag "decision".
-Use tag "blocker" if you encounter something preventing progress.
+    nextCommand: '/implement',
+    contextMessage: `Reference the workflow-protocol and plan-methodology skills.
+Use mcp__workflow__log_entry for decisions (tag "decision") and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,
   },
   '/implement': {
     defaultDps: 1,
-    nextCommand: '/workflow:review',
-    contextMessage: `Use mcp__workflow__log_entry with tag "task-complete" after each task.
-Use tag "issue" for problems encountered.
-Use tag "blocker" if you encounter something preventing progress.
+    nextCommand: '/review',
+    contextMessage: `Reference the workflow-protocol and implement-methodology skills.
+Use mcp__workflow__log_entry with tag "task-complete" after each task, "issue" for problems, "blocker" for blockers.
 When done, use mcp__workflow__end_session.`,
   },
   '/review': {
     defaultDps: 3,
-    nextCommand: '/workflow:plan',
-    contextMessage: `Use mcp__workflow__log_entry with tag "gap" for identified gaps.
-Use tag "blocker" if you encounter something preventing progress.
+    nextCommand: '/plan',
+    contextMessage: `Reference the workflow-protocol and review-framework skills.
+Use mcp__workflow__log_entry with tag "gap" for identified gaps and "blocker" for blockers.
 When done, use mcp__workflow__end_session.`,
   },
   '/debug': {
     defaultDps: 4,
-    contextMessage: `Use mcp__workflow__log_entry with tag "fault" for issues found.
-Use tag "fix" for fixes applied.
-Use tag "blocker" if you encounter something preventing progress.
+    contextMessage: `Reference the workflow-protocol and debug-methodology skills.
+Use mcp__workflow__log_entry with tag "fault" for issues found, "fix" for fixes applied, "blocker" for blockers.
 When done, use mcp__workflow__end_session.`,
   },
   '/refactor': {
     defaultDps: 3,
-    nextCommand: '/workflow:plan',
-    contextMessage: `Use mcp__workflow__log_entry for analysis entries.
-Use tag "blocker" if you encounter something preventing progress.
+    nextCommand: '/plan',
+    contextMessage: `Reference the workflow-protocol and refactor-analysis skills.
+Use mcp__workflow__log_entry for analysis entries and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,
   },
   '/archive': {
     defaultDps: 0,
-    contextMessage: `Use mcp__workflow__log_entry for archive operations.
+    contextMessage: `Reference the workflow-protocol skill.
+Use mcp__workflow__log_entry for archive operations.
 When done, use mcp__workflow__end_session.`,
   },
 };
