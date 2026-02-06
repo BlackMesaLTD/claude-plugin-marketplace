@@ -14,7 +14,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "tool matches \"start_session\"",
+        "matcher": "mcp__plugin_workflow_workflow__start_session",
         "hooks": [
           {
             "type": "command",
@@ -25,7 +25,7 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "tool matches \"Edit|Write\"",
+        "matcher": "Edit|Write",
         "hooks": [
           {
             "type": "command",
