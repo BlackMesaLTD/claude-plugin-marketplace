@@ -5,18 +5,5 @@
   "author": {
     "name": "Black Mesa LTD",
     "email": "info@blackmesa.live"
-  },
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "start_session",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "npx tsx ${CLAUDE_PLUGIN_ROOT}/scripts/resolve-project.ts"
-          }
-        ]
-      }
-    ]
   }
 }
