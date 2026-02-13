@@ -2,7 +2,7 @@
   "mcpServers": {
     "workflow": {
       "type": "http",
-      "url": "${WORKFLOW_MCP_URL:-https://subfreezing-sherril-nonobservantly.ngrok-free.dev/mcp}"
+      "url": "${WORKFLOW_MCP_URL:-https://api.workflow-mcp.blackmesa.live/mcp}"
     }
   }
 }
