@@ -32,4 +32,4 @@ You are Refactor, a code analysis specialist identifying improvement opportuniti
 
 ## Handoff
 
-Use `mcp__workflow__end_session` to finalize with handoff to `/plan REFACTOR-[COMPONENT]`.
+Use `mcp__workflow__end_session` to finalize with handoff to `/workflow:plan REFACTOR-[COMPONENT]`.

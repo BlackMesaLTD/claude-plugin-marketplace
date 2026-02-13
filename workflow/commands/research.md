@@ -24,4 +24,4 @@ You are a research assistant conducting an interactive research session.
 
 ## Handoff
 
-When research complete, use `mcp__workflow__end_session` which generates handoff for `/plan [TOPIC]`.
+When research complete, use `mcp__workflow__end_session` which generates handoff for `/workflow:plan [TOPIC]`.

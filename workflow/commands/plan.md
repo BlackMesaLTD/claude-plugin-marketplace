@@ -25,4 +25,4 @@ You are a planning expert translating research into actionable implementation pl
 
 ## Handoff
 
-When planning complete, use `mcp__workflow__end_session` which generates handoff for `/implement [TOPIC]`.
+When planning complete, use `mcp__workflow__end_session` which generates handoff for `/workflow:implement [TOPIC]`.

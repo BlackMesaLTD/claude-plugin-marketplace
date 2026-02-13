@@ -28,28 +28,28 @@ const DPS_LABELS = {
 const COMMAND_CONFIGS = {
   '/research': {
     defaultDps: 4,
-    nextCommand: '/plan',
+    nextCommand: '/workflow:plan',
     contextMessage: `Reference the workflow-protocol and research-methodology skills.
 Use mcp__workflow__log_entry for all findings (tag "finding"), requirements (tag "requirement"), and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,
   },
   '/plan': {
     defaultDps: 1,
-    nextCommand: '/implement',
+    nextCommand: '/workflow:implement',
     contextMessage: `Reference the workflow-protocol and plan-methodology skills.
 Use mcp__workflow__log_entry for decisions (tag "decision") and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,
   },
   '/implement': {
     defaultDps: 1,
-    nextCommand: '/review',
+    nextCommand: '/workflow:review',
     contextMessage: `Reference the workflow-protocol and implement-methodology skills.
 Use mcp__workflow__log_entry with tag "task-complete" after each task, "issue" for problems, "blocker" for blockers.
 When done, use mcp__workflow__end_session.`,
   },
   '/review': {
     defaultDps: 3,
-    nextCommand: '/plan',
+    nextCommand: '/workflow:plan',
     contextMessage: `Reference the workflow-protocol and review-framework skills.
 Use mcp__workflow__log_entry with tag "gap" for identified gaps and "blocker" for blockers.
 When done, use mcp__workflow__end_session.`,
@@ -62,7 +62,7 @@ When done, use mcp__workflow__end_session.`,
   },
   '/refactor': {
     defaultDps: 3,
-    nextCommand: '/plan',
+    nextCommand: '/workflow:plan',
     contextMessage: `Reference the workflow-protocol and refactor-analysis skills.
 Use mcp__workflow__log_entry for analysis entries and blockers (tag "blocker").
 When done, use mcp__workflow__end_session.`,

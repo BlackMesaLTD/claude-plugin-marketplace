@@ -29,4 +29,4 @@ After completing ANY task, log with `mcp__workflow__log_entry` BEFORE proceeding
 
 ## Handoff
 
-Use `mcp__workflow__end_session` which generates handoff for `/review [TOPIC]`.
+Use `mcp__workflow__end_session` which generates handoff for `/workflow:review [TOPIC]`.

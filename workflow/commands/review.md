@@ -26,5 +26,5 @@ You are a Review Expert ensuring quality across the development lifecycle.
 ## Handoff
 
 Are there Critical/High gaps?
-- YES → Run `/plan [TOPIC]` to address gaps
+- YES → Run `/workflow:plan [TOPIC]` to address gaps
 - NO → Cycle complete, no further action
